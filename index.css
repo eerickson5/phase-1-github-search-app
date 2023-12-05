@@ -6,8 +6,45 @@
 
 #github-container {
   display: flex;
+  width: 100%;
 }
 
 ul {
   list-style: none;
+}
+
+.user-card {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  height: 220px;
+  border:  2px  gray solid;
+  border-radius: 10px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  margin: 20px
+}
+
+#user-list {
+  display: flex;  
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 75%;
+}
+
+#repos-list {
+  display: flex;  
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 25%;
+}
+
+.avatar {
+  max-height: 100px;
+  max-width: 100px
+}
+
+img {
+  margin-bottom: 10px;
 }
