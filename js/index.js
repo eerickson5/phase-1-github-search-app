@@ -1,19 +1,34 @@
 //Accept: application/vnd.github.v3+json
 
-handleFormSubmission = (event) => {
+handleFormSubmission = (event, searchingRepos = false) => {
     event.preventDefault();
     const form = event.target;
     searchInput = form.childNodes[1].value
-    fetch(`https://api.github.com/search/users?q=${searchInput}`,{
-        headers:{
-            "Accept": "application/vnd.github.v3+json"
-        }
-    })
-    .then(res => res.json())
-    .then(usersData => {
-        document.getElementById("user-list").textContent = '';
-        usersData.items.forEach( user => createUserCard(user) )
-    })
+
+    if(searchingRepos){
+        fetch(`https://api.github.com/search/repositories?q=${searchInput}`,{
+            headers:{
+                "Accept": "application/vnd.github.v3+json"
+            }
+        })
+        .then(res => res.json())
+        .then(reposData => {
+            document.getElementById("repos-list").textContent = '';
+            reposData.items.forEach( repo => createRepoCard(repo) )
+        })
+    } else {
+        fetch(`https://api.github.com/search/users?q=${searchInput}`,{
+            headers:{
+                "Accept": "application/vnd.github.v3+json"
+            }
+        })
+        .then(res => res.json())
+        .then(usersData => {
+            document.getElementById("user-list").textContent = '';
+            usersData.items.forEach( user => createUserCard(user) )
+        })
+    }
+    
     form.reset();
 }
 
@@ -70,6 +85,7 @@ createRepoCard = (repo) => {
 }
 
 fetchUserRepos = (user) => {
+
     const repoList = document.getElementById("repos-list")
     repoList.textContent = '';
 
@@ -90,5 +106,8 @@ fetchUserRepos = (user) => {
 
 document.addEventListener('DOMContentLoaded', () => init())
 init = () => {
-    document.getElementById("github-form").addEventListener("submit", event => handleFormSubmission(event));
+    document.getElementById("github-form").addEventListener("submit", event => {
+        const isSearchingRepos = document.getElementById("switch").childNodes[1].value === "on";
+        handleFormSubmission(event, isSearchingRepos);
+    });
 }
