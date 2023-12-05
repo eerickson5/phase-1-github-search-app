@@ -5,7 +5,12 @@ handleFormSubmission = (event, searchingRepos = false) => {
     const form = event.target;
     searchInput = form.childNodes[1].value
 
-    if(searchingRepos){
+    const repoList = document.getElementById("repos-list")
+    const userList = document.getElementById("user-list")
+    repoList.textContent = '';
+    userList.textContent = '';
+
+    if(searchingRepos){ //if searching repos
         fetch(`https://api.github.com/search/repositories?q=${searchInput}`,{
             headers:{
                 "Accept": "application/vnd.github.v3+json"
@@ -13,10 +18,11 @@ handleFormSubmission = (event, searchingRepos = false) => {
         })
         .then(res => res.json())
         .then(reposData => {
-            document.getElementById("repos-list").textContent = '';
+            userList.style.width = "0px";
+            repoList.style.width = "100%";
             reposData.items.forEach( repo => createRepoCard(repo) )
         })
-    } else {
+    } else { //if searching users
         fetch(`https://api.github.com/search/users?q=${searchInput}`,{
             headers:{
                 "Accept": "application/vnd.github.v3+json"
@@ -24,7 +30,8 @@ handleFormSubmission = (event, searchingRepos = false) => {
         })
         .then(res => res.json())
         .then(usersData => {
-            document.getElementById("user-list").textContent = '';
+            userList.style.width = "75%";
+            repoList.style.width = "25%";
             usersData.items.forEach( user => createUserCard(user) )
         })
     }
@@ -61,7 +68,6 @@ createUserCard = (user) => {
 }
 
 createRepoCard = (repo) => {
-    console.log(repo)
     const card = document.createElement('div');
     card.classList.add("repo-card");
 
@@ -107,7 +113,7 @@ fetchUserRepos = (user) => {
 document.addEventListener('DOMContentLoaded', () => init())
 init = () => {
     document.getElementById("github-form").addEventListener("submit", event => {
-        const isSearchingRepos = document.getElementById("switch").childNodes[1].value === "on";
+        const isSearchingRepos = document.getElementById("switch").childNodes[1].checked;
         handleFormSubmission(event, isSearchingRepos);
     });
 }
