@@ -17,7 +17,7 @@ ul {
   display: flex;
   flex-direction: column;
   width: 150px;
-  height: 220px;
+  height: 240px;
   border:  2px  gray solid;
   border-radius: 10px;
   align-content: center;
@@ -26,17 +26,33 @@ ul {
   margin: 20px
 }
 
+.repo-card {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  height: 140px;
+  border:  2px  gray solid;
+  border-radius: 10px;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  margin: 5px;
+}
+
 #user-list {
   display: flex;  
   flex-wrap: wrap;
   flex-direction: row;
   width: 75%;
+  align-content: flex-start;
 }
 
 #repos-list {
   display: flex;  
   flex-wrap: wrap;
   flex-direction: row;
+  align-items: center;
   width: 25%;
 }
 
